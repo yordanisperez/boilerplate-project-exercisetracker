@@ -85,9 +85,24 @@ function handlePostEjerc(req,res,next){
           }
           else{
             console.log('Exersice  added successfully : ',data);
-            const {description,duration,date,user}=data;
+            const {description,duration,date}=data;
             const dateTime= new Date(date)
-            res.json({_id:userid, username:user,date:dateTime.toUTCString(),duration:duration, description:description});
+            let t1=setTimeout(()=>
+            {
+                next({ message: "timeout" });
+            },TIMEOUT); 
+            user.getUser(userid,(error,dataUser)=>{
+                clearTimeout(t1);
+                if (error){
+                    return next(error);
+                }
+                else{
+                    console.log(dataUser);
+                    res.json({_id:userid, username:dataUser.username,date:dateTime.toUTCString(),duration:duration, description:description});
+                }
+                
+            })            
+           
             }
         });
 
