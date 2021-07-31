@@ -87,7 +87,7 @@ function handlePostEjerc(req,res,next){
             console.log('Exersice  added successfully : ',data);
             const {description,duration,date,user}=data;
             const dateTime= new Date(date)
-            res.json({description:description,duration:duration,date:dateTime.toUTCString(),user:user});
+            res.json({_id:userid, username:user,date:dateTime.toUTCString(),duration:duration, description:description});
             }
         });
 
