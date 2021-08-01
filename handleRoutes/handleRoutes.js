@@ -33,7 +33,7 @@ function handlePostUsers(req,res,next){
         });
 
     }catch(error){
-        console.log(error);
+        console.log('manejado handlePostUsers',error);
  
     }
 }
@@ -59,7 +59,7 @@ function handleGetUsers(req,res,next){
         });
 
     }catch(error){
-        console.log(error);
+        console.log('manejado handleGetUsers',error);
  
     }
    
@@ -81,7 +81,7 @@ function handlePostEjerc(req,res,next){
         {
           clearTimeout(t);
           if (error){
-              return next(error);
+             throw(error);
           }
           else{
             console.log('Exersice  added successfully : ',data);
@@ -94,20 +94,25 @@ function handlePostEjerc(req,res,next){
             user.getUser(userid,(error,dataUser)=>{
                 clearTimeout(t1);
                 if (error){
-                    return next(error);
+                     throw(error);
                 }
                 else{
                     console.log(dataUser);
-                    res.json({_id:userid, username:dataUser.username,date:dateTime.toUTCString(),duration:duration, description:description});
+                    res.json({_id:userid, username:dataUser.username,date:dateTime.toDateString(),duration:duration, description:description});
                 }
                 
             })            
            
             }
+        }).catch((err)=>{
+            console.log("catch in handlePostEjerc");
+            res.end("Error");
+
         });
 
     }catch(error){
-        console.log(error);
+        console.log('manejado handlePostEjerc',error);
+        res.end('Error');
     }
 }
 
@@ -157,10 +162,14 @@ function handleGetLogs(req,res,next){
                 
             })
  
-        });
+        }).catch((err)=>{
+                            console.log("catch in handleGetLogs");
+                            res.end("Error");
+
+                        });
 
     }catch(error){
-        console.log(error);
+        console.log('manejado handleGetLogs',error);
        
     }
    
